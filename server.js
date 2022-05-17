@@ -35,11 +35,17 @@ mclient.connect(DBurl).then((client) => {
 //import userApp and productApp
 const userApp = require("./API/userApi");
 const productApp = require("./API/productApi");
+const { response } = require("express");
 
 
 //execute specific middleware based on path
 app.use('/user', userApp);
 app.use('/product', productApp);
+
+//dealing with page refresh
+app.use('*', (request, response) => {
+    response.sendFile(path.join(__dirname, './build/index.html'));
+})
 
 //handling Invalid path
 app.use((req, res) => {
